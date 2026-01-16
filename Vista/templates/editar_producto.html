@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Producto - Pegatriplex{% endblock %}
+{% block page_title %}Editar Producto{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <form method="POST" class="form">
+        <h2>✏️ Editar Producto</h2>
+        
+        {% if error %}
+        <div class="alert alert-error">⚠️ {{ error }}</div>
+        {% endif %}
+
+        <div class="form-group">
+            <label for="nombre">Nombre del Producto</label>
+            <input type="text" id="nombre" name="nombre" required value="{{ producto.nombre }}">
+        </div>
+
+        <div class="form-group">
+            <label for="categoria">Categoría</label>
+            <select id="categoria" name="categoria" required>
+                <option value="Tornillos" {% if producto.categoria == 'Tornillos' %}selected{% endif %}>Tornillos</option>
+                <option value="Tuercas" {% if producto.categoria == 'Tuercas' %}selected{% endif %}>Tuercas</option>
+                <option value="Herramientas" {% if producto.categoria == 'Herramientas' %}selected{% endif %}>Herramientas</option>
+                <option value="Pinturas" {% if producto.categoria == 'Pinturas' %}selected{% endif %}>Pinturas</option>
+                <option value="Cables" {% if producto.categoria == 'Cables' %}selected{% endif %}>Cables</option>
+                <option value="Otros" {% if producto.categoria == 'Otros' %}selected{% endif %}>Otros</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="precio">Precio ($)</label>
+                <input type="number" id="precio" name="precio" required step="0.01" min="0" value="{{ producto.precio }}">
+            </div>
+
+            <div class="form-group">
+                <label for="stock">Stock (Cantidad)</label>
+                <input type="number" id="stock" name="stock" required min="0" value="{{ producto.stock }}">
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">✅ Actualizar</button>
+            <a href="{{ url_for('productos') }}" class="btn btn-secondary">❌ Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

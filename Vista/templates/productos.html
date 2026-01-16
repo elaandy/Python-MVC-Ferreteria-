@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Productos - Pegatriplex{% endblock %}
+{% block page_title %}Gestionar Productos{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>📦 Productos</h1>
+    <a href="{{ url_for('agregar_producto') }}" class="btn btn-primary">➕ Nuevo Producto</a>
+</div>
+
+<div class="table-container">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+            <tr>
+                <td>#{{ producto.id }}</td>
+                <td><strong>{{ producto.nombre }}</strong></td>
+                <td>{{ producto.categoria }}</td>
+                <td>${{ "%.2f"|format(producto.precio) }}</td>
+                <td>
+                    <span class="stock-badge {% if producto.stock < 5 %}low{% elif producto.stock < 20 %}medium{% else %}high{% endif %}">
+                        {{ producto.stock }}
+                    </span>
+                </td>
+                <td>
+                    <div class="action-buttons">
+                        <a href="{{ url_for('editar_producto', id_producto=producto.id) }}" class="btn-action btn-edit" title="Editar">✏️</a>
+                        <form method="POST" action="{{ url_for('eliminar_producto', id_producto=producto.id) }}" style="display:inline;" onsubmit="return confirm('¿Eliminar este producto?');">
+                            <button type="submit" class="btn-action btn-delete" title="Eliminar">🗑️</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" class="empty-message">No hay productos registrados</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -57,11 +57,22 @@ class VentaServicio:
         """Obtiene todas las ventas registradas"""
         conn = get_connection()
         cursor = conn.cursor()
-        cursor.execute("SELECT id_venta, fecha, total FROM Ventas")
+        cursor.execute("SELECT id_venta, total, fecha FROM Ventas ORDER BY fecha DESC")
         ventas = cursor.fetchall()
         cursor.close()
         conn.close()
         return ventas
+
+    @staticmethod
+    def obtener_venta(id_venta):
+        """Obtiene una venta específica"""
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT id_venta, total, fecha FROM Ventas WHERE id_venta = ?", (id_venta,))
+        venta = cursor.fetchone()
+        cursor.close()
+        conn.close()
+        return venta
 
     @staticmethod
     def obtener_detalle_venta(id_venta):
@@ -69,12 +80,33 @@ class VentaServicio:
         conn = get_connection()
         cursor = conn.cursor()
         cursor.execute("""
-            SELECT dv.id_detalle, dv.id_producto, p.nombre, p.categoria, dv.cantidad, dv.precio_unitario
+            SELECT dv.id_producto, p.nombre, dv.cantidad, dv.precio_unitario, 
+                   (dv.cantidad * dv.precio_unitario) as subtotal
             FROM Detalle_Venta dv
             JOIN Productos p ON dv.id_producto = p.id_producto
             WHERE dv.id_venta = ?
         """, (id_venta,))
-        detalle = cursor.fetchall()
+        detalles = cursor.fetchall()
         cursor.close()
         conn.close()
-        return detalle
+        return detalles
+
+    @staticmethod
+    def obtener_estadisticas():
+        """Obtiene estadísticas de ventas para el dashboard"""
+        conn = get_connection()
+        cursor = conn.cursor()
+        
+        cursor.execute("SELECT SUM(total) FROM Ventas")
+        total_ventas = cursor.fetchone()[0] or 0
+        
+        cursor.execute("SELECT COUNT(*) FROM Ventas")
+        num_ventas = cursor.fetchone()[0]
+        
+        cursor.close()
+        conn.close()
+        
+        return {
+            'total_ventas': total_ventas,
+            'num_ventas': num_ventas
+        }

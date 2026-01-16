@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Pegatriplex - Admin Dashboard{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>🏪 PEGATRIPLEX</h1>
+                <p>Admin Panel</p>
+            </div>
+            
+            <nav class="menu">
+                <a href="{{ url_for('dashboard') }}" class="menu-item {% if request.endpoint == 'dashboard' %}active{% endif %}">
+                    <span class="icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="{{ url_for('realizar_venta') }}" class="menu-item {% if request.endpoint == 'realizar_venta' %}active{% endif %}">
+                    <span class="icon">💰</span>
+                    <span>Realizar Venta</span>
+                </a>
+                <a href="{{ url_for('productos') }}" class="menu-item {% if request.endpoint == 'productos' or 'producto' in request.endpoint %}active{% endif %}">
+                    <span class="icon">📦</span>
+                    <span>Productos</span>
+                </a>
+                <a href="{{ url_for('ventas') }}" class="menu-item {% if request.endpoint == 'ventas' or 'venta' in request.endpoint %}active{% endif %}">
+                    <span class="icon">📋</span>
+                    <span>Historial Ventas</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <p>© 2026 Pegatriplex SAS</p>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <div class="header">
+                <h2>{% block page_title %}Bienvenido{% endblock %}</h2>
+                <div class="user-info">
+                    <span class="user">👤 Admin</span>
+                </div>
+            </div>
+
+            <div class="content">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+</body>
+</html>

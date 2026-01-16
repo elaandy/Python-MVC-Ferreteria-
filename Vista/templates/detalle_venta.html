@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Detalle Venta - Pegatriplex{% endblock %}
+{% block page_title %}Detalle de Venta #{{ venta.id_venta }}{% endblock %}
+
+{% block content %}
+<div class="detail-container">
+    <div class="detail-header">
+        <h2>📋 Venta #{{ venta.id_venta }}</h2>
+        <a href="{{ url_for('ventas') }}" class="btn btn-secondary">← Volver</a>
+    </div>
+
+    <div class="detail-info">
+        <div class="info-card">
+            <p><strong>ID Venta:</strong> #{{ venta.id_venta }}</p>
+            <p><strong>Fecha:</strong> {{ venta.fecha }}</p>
+            <p><strong>Total:</strong> ${{ "%.2f"|format(venta.total) }}</p>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <h3>Productos en la Venta</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detalle in detalles %}
+                <tr>
+                    <td>{{ detalle.nombre }}</td>
+                    <td>{{ detalle.cantidad }}</td>
+                    <td>${{ "%.2f"|format(detalle.precio_unitario) }}</td>
+                    <td><strong>${{ "%.2f"|format(detalle.subtotal) }}</strong></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="detail-footer">
+        <h3>Total: ${{ "%.2f"|format(venta.total) }}</h3>
+    </div>
+</div>
+{% endblock %}

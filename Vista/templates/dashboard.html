@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Pegatriplex{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon" style="background: #27AE60;">📦</div>
+            <div class="stat-content">
+                <h3>Productos</h3>
+                <p class="stat-number">{{ total_productos }}</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon" style="background: #3498DB;">💰</div>
+            <div class="stat-content">
+                <h3>Total Ventas</h3>
+                <p class="stat-number">${{ "%.2f"|format(total_ventas) }}</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon" style="background: #E67E22;">🛒</div>
+            <div class="stat-content">
+                <h3>Transacciones</h3>
+                <p class="stat-number">{{ num_ventas }}</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon" style="background: #9B59B6;">📊</div>
+            <div class="stat-content">
+                <h3>Stock Total</h3>
+                <p class="stat-number">{{ total_stock }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-section">
+        <h3>Acciones Rápidas</h3>
+        <div class="quick-actions">
+            <a href="{{ url_for('agregar_producto') }}" class="btn btn-primary">
+                ➕ Agregar Producto
+            </a>
+            <a href="{{ url_for('productos') }}" class="btn btn-secondary">
+                📦 Ver Productos
+            </a>
+            <a href="{{ url_for('ventas') }}" class="btn btn-secondary">
+                💰 Ver Ventas
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

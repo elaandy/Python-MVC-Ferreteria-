@@ -32,7 +32,7 @@ class Producto:
         conn = get_connection()
         cursor = conn.cursor()
         cursor.execute(
-            "UPDATE Productos SET nombre = ?, categoria = ?, precio = ?, stock = ? WHERE id_producto = ?"
+            "UPDATE Productos SET nombre = ?, categoria = ?, precio = ?, stock = ? WHERE id_producto = ?",
             (self.nombre, self.categoria, self.precio, self.stock, self.id_producto)
         )
         conn.commit()

@@ -8,7 +8,10 @@ CREATE TABLE Productos (
 use pegratriplexsas
 
 Create table 
-
+CREATE TABLE Usuarios(
+    id_usuario INT IDENTITY(1,1) PRIMARY KEY,
+    nombre_usuario VARCHAR(100) NOT NULL,
+)
 CREATE TABLE Ventas (
     id_venta INT IDENTITY(1,1) PRIMARY KEY,
     fecha DATETIME DEFAULT GETDATE(),
